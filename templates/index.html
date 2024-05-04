@@ -12,65 +12,18 @@
 
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
 
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item  position-relative">
-              <div class="icon">
-                <i class="bi bi-activity"></i>
+          {% for service in services %}
+            <div class="col-lg-4 col-md-6">
+              <div class="service-item  position-relative">
+                <div class="icon">
+                  <i class="{{service.icon}}"></i>
+                </div>
+                <h3>{{service.title}}</h3>
+                <p>{{service.description}}</p>
               </div>
-              <h3>Digital Marketing Mastery</h3>
-              <p>Elevate your online presence with our comprehensive digital marketing solutions.</p>
             </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-broadcast"></i>
-              </div>
-              <h3>Public Relations Powerhouse</h3>
-              <p>Shape your narrative and build strong relationships with our public relations expertise. From crafting compelling press releases to managing crisis communications, we help you maintain a positive public image.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-easel"></i>
-              </div>
-              <h3>Creative Design Solutions</h3>
-              <p>Unleash the potential of visually stunning design. Our creative team specializes in crafting compelling graphics, logos, and branding materials that captivate your audience.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-bounding-box-circles"></i>
-              </div>
-              <h3>Web Development Wizardry</h3>
-              <p>Transform your digital footprint with our expert web development services. Whether you need a responsive website, e-commerce platform, or custom web application.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-calendar4-week"></i>
-              </div>
-              <h3>Data Analytics Excellence</h3>
-              <p>Unlock the power of data with our advanced analytics services. From gathering valuable insights to making data-driven decisions, our analytics team is equipped to turn raw data into actionable intelligence.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-chat-square-text"></i>
-              </div>
-              <h3>Strategic Consultancy Services</h3>
-              <p>Navigate the complexities of business with our strategic consultancy services. We offer tailored solutions to optimize your operations, enhance efficiency, and fuel sustainable growth.</p>
-            </div>
-          </div><!-- End Service Item -->
+            {% endfor %}
+            <!-- End Service Item -->
 
         </div>
 
@@ -88,49 +41,37 @@
         <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
           <div class="swiper-wrapper">
 
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <div class="d-flex align-items-center">
-                    <img src="{% static 'assets/img/testimonials/testimonials-1.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                      <h3>Saul Goodman</h3>
-                      <h4>Ceo &amp; Founder</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            {% for testimonial in testimonials %}
+              <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                  <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                      {% if "http" in testimonial.user_image %}
+                        <img src="{{testimonial.user_image}}" class="testimonial-img flex-shrink-0" alt="">
+                      {% else %}
+                        <img src="{% static  testimonial.user_image %}" class="testimonial-img flex-shrink-0" alt="">
+                      {% endif %}
+                      <div>
+                        <h3>{{testimonial.username}}</h3>
+                        <h4>{{testimonial.user_job_title}}</h4>
+                        <div class="stars">
+                          {% for i in 'x'|ljust:testimonial.rating_count %}
+                            <i class="bi bi-star-fill"></i>
+                          {% endfor %}
+                        </div>
                       </div>
                     </div>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      {{testimonial.review}}
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
                   </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Working with [Your Agency Name] was a game-changer for our business. Their team's strategic approach and attention to detail significantly boosted our online presence. They're not just an agency; they're a partner dedicated to our success.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
                 </div>
               </div>
-            </div><!-- End testimonial item -->
+              {% endfor %}
+              <!-- End testimonial item -->
 
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <div class="d-flex align-items-center">
-                    <img src="{% static 'assets/img/testimonials/testimonials-4.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                      <h3>Adam</h3>
-                      <h4>Designer</h4>
-                      <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Incredible results, exceptional service! [Your Agency Name] delivered beyond our expectations. Their creativity and expertise transformed our marketing strategy, resulting in increased leads and revenue. Highly recommended.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
 
           </div>
           <div class="swiper-pagination"></div>
@@ -155,75 +96,23 @@
 
             <div class="accordion accordion-flush" id="faqlist" data-aos="fade-up" data-aos-delay="100">
 
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1">
-                    <span class="num">1.</span>
-                    What services does your agency provide?
-                  </button>
-                </h3>
-                <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-                  <div class="accordion-body">
-                    Our agency offers a range of services, including [brief description of services]. Whether you need [specific service] or [another service], we have the expertise to meet your needs.
+              {% for faq in faqs %}
+                <div class="accordion-item">
+                  <h3 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-{{forloop.counter}}">
+                      <span class="num">{{forloop.counter}}.</span>
+                      {{faq.question}}
+                    </button>
+                  </h3>
+                  <div id="faq-content-{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                    <div class="accordion-body">
+                      {{faq.answer}}
+                    </div>
                   </div>
                 </div>
-              </div><!-- # Faq item-->
+              {% endfor %}
+              <!-- # Faq item-->
 
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
-                    <span class="num">2.</span>
-                    How can I contact your agency for assistance?
-                  </button>
-                </h3>
-                <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-                  <div class="accordion-body">
-                    You can reach us through our Contact Us page on the website, where you'll find our phone number and email address. Additionally, we welcome you to visit our office during business hours for face-to-face assistance.
-                  </div>
-                </div>
-              </div><!-- # Faq item-->
-
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3">
-                    <span class="num">3.</span>
-                    What sets your agency apart from others in the industry?
-                  </button>
-                </h3>
-                <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-                  <div class="accordion-body">
-                    At [Agency Name], we pride ourselves on [highlight unique aspects such as expertise, customer service, or innovative solutions]. Our commitment to [core values] distinguishes us, ensuring that we deliver exceptional results for our clients.
-                  </div>
-                </div>
-              </div><!-- # Faq item-->
-
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-4">
-                    <span class="num">4.</span>
-                    How does the billing process work?
-                  </button>
-                </h3>
-                <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-                  <div class="accordion-body">
-                    Our billing process is straightforward. Once we've provided you with a detailed proposal and you've accepted it, we will send you an invoice for the agreed-upon services. Our billing terms are [mention payment terms], and we accept payments through [list payment methods].
-                  </div>
-                </div>
-              </div><!-- # Faq item-->
-
-              <div class="accordion-item">
-                <h3 class="accordion-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-5">
-                    <span class="num">5.</span>
-                    Can I see examples of your agency's previous work?
-                  </button>
-                </h3>
-                <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-                  <div class="accordion-body">
-                    Absolutely! We showcase a portfolio of our work on our website under the "Projects" or "Portfolio" section. There, you can explore a variety of projects we've successfully completed, giving you a sense of the quality and diversity of our work.
-                  </div>
-                </div>
-              </div><!-- # Faq item-->
 
             </div>
 

@@ -1,5 +1,13 @@
+from collections.abc import Sequence
 from django.contrib import admin
-from app.models import GeneralInfo
+from django.http import HttpRequest
+from app.models import (
+    GeneralInfo,
+      Service, 
+      Testimonial, 
+      FrequentlyAskedQuestion,
+)
+
 # Register your models here.
 @admin.register(GeneralInfo)
 class GeneralInfoAdmin(admin.ModelAdmin):
@@ -27,4 +35,43 @@ class GeneralInfoAdmin(admin.ModelAdmin):
     #show you can set field to disable update
     readonly_fields = [
     'email'
+    ]
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    
+    list_display= [
+        "title",
+        "description"
+    ]
+
+
+    search_fields = [
+        "title",
+        "description"
+    ]
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display=[
+        "username",
+        "user_job_title",
+        "display_rating_count",
+    ]
+
+
+    def display_rating_count(self, obj):
+        return '*' * obj.rating_count
+    
+    display_rating_count.short_description = "Rating"
+
+
+@admin.register(FrequentlyAskedQuestion)
+class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
+    
+    # displays selected fields
+    list_display = [
+        'question',
+        'answer',
     ]

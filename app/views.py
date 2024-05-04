@@ -1,11 +1,21 @@
 from django.shortcuts import render
-from app.models import GeneralInfo
+from app.models import (
+    GeneralInfo, 
+    Service, 
+    Testimonial, 
+    FrequentlyAskedQuestion,
+)
 
 # Create your views here.
 def index(request):
 
     general_info = GeneralInfo.objects.first()
-    print(f"general_info : {general_info.location}")
+
+    services = Service.objects.all()
+
+    testimonials = Testimonial.objects.all()
+
+    faqs = FrequentlyAskedQuestion.objects.all()
 
     context = {
         "company_name": general_info.company_name,
@@ -18,7 +28,10 @@ def index(request):
         "facebook_url": general_info.facebook_url,
         "instagram_url": general_info.instagram_url,
         "linkedin_url": general_info.linkedin_url,
+
+        "services": services,
+        "testimonials": testimonials,
+        "faqs": faqs,
     }
 
-    print(f"context : {context}")
     return render(request, "index.html", context)
