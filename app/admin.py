@@ -6,6 +6,7 @@ from app.models import (
       Service, 
       Testimonial, 
       FrequentlyAskedQuestion,
+      ContactFormLog,
 )
 
 # Register your models here.
@@ -75,3 +76,25 @@ class FrequentlyAskedQuestionAdmin(admin.ModelAdmin):
         'question',
         'answer',
     ]
+
+
+@admin.register(ContactFormLog)
+class ContactFormLogAdmin(admin.ModelAdmin):
+    
+    list_display = [
+        'email',
+        'is_success',
+        'is_error',
+        'action_time',
+    ]
+ #show to disable add permission
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    #show to disable update permission
+    def has_change_permission(self, request, obj=None):
+       return False
+
+    #show to disable delete permission
+    def has_delete_permission(self, request, obj=None):
+        return False
