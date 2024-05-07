@@ -7,6 +7,8 @@ from app.models import (
       Testimonial, 
       FrequentlyAskedQuestion,
       ContactFormLog,
+      Blog,
+      Author,
 )
 
 # Register your models here.
@@ -98,3 +100,22 @@ class ContactFormLogAdmin(admin.ModelAdmin):
     #show to disable delete permission
     def has_delete_permission(self, request, obj=None):
         return False
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    
+    list_display = [
+        'first_name',
+        'last_name',
+    ]
+    
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    
+    list_display = [
+        'category',
+        'author',
+        'title',
+        'blog_image',
+        'created_at',
+    ]

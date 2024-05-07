@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class GeneralInfo(models.Model):
@@ -54,14 +56,41 @@ class FrequentlyAskedQuestion(models.Model):
         return self.question
     
 class ContactFormLog(models.Model):
-        name = models.CharField(max_length=255)
-        email = models.CharField (max_length=255)
-        subject = models.CharField(max_length=255)
-        message = models.TextField()
-        action_time = models.DateTimeField(null=True, blank=True)
-        is_success = models.BooleanField(default=False)
-        is_error = models.BooleanField(default=False)
-        error_message = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=255)
+    email = models.CharField (max_length=255)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    action_time = models.DateTimeField(null=True, blank=True)
+    is_success = models.BooleanField(default=False)
+    is_error = models.BooleanField(default=False)
+    error_message = models.TextField(null=True, blank=True)
 
-        def __str__(self):
-            return self.email
+    def __str__(self):
+        return self.email
+
+class Author(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=50)
+    joined_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.first_name
+
+class Blog(models.Model):
+    blog_image = models.CharField(max_length=255, null=True, blank=True)
+    category = models.CharField(max_length=50, null=True, blank=True)
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, blank=True)
+    # on_delete=models.CASCADE - if deleting the author, django will auto delete the author's blogs
+    # on_delete=models.PROTECT - if deleting the author, django will not allow that if the author has blogs
+    # on_delete=models.SET_NULL - if deleting the author, django will make author column as blank (requires to have null=True & blank=True attributes)
+    created_at = models.DateTimeField(default=timezone.now)
+    content = RichTextField() #models.TextField()
+
+    def __str__(self):
+        return self.title
+    
+   
+        
+

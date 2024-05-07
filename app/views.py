@@ -4,12 +4,14 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.utils import timezone
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from app.models import (
     GeneralInfo, 
     Service, 
     Testimonial, 
     FrequentlyAskedQuestion,
     ContactFormLog,
+    Blog,
 )
 
 # Create your views here.
@@ -22,6 +24,8 @@ def index(request):
     testimonials = Testimonial.objects.all()
 
     faqs = FrequentlyAskedQuestion.objects.all()
+
+    recent_blogs = Blog.objects.all().order_by("-created_at")[:3]
 
     context = {
         "company_name": general_info.company_name,
@@ -38,6 +42,7 @@ def index(request):
         "services": services,
         "testimonials": testimonials,
         "faqs": faqs,
+        "recent_blogs": recent_blogs,
     }
 
     return render(request, "index.html", context)
@@ -99,3 +104,40 @@ def contact_form(request):
 
 
     return redirect('home')
+
+
+def blog_detail(request, blog_id):
+    blog = Blog.objects.get(id=blog_id)
+
+    recent_blogs = Blog.objects.all().exclude(id=blog_id).order_by("-created_at")[:2]
+
+    context = {
+        "blog": blog,
+        "recent_blogs": recent_blogs,
+    }
+    return render(request, "blog_details.html", context)
+
+def blogs(request):
+
+    all_blogs = Blog.objects.all().order_by("-created_at")
+    blogs_per_page = 1 # number ob pages depending on the blogs to display
+    paginator = Paginator(all_blogs, blogs_per_page) 
+
+    print(f"paginator.num_pages : {paginator.num_pages}")
+
+    page = request.GET.get('page')
+
+    print(f"page : {page}")
+
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        blogs = paginator.page(1)
+    except EmptyPage:
+        blogs = paginator.page(paginator.num_pages)
+
+    context = {
+        "blogs": blogs,
+    }
+
+    return render(request, "blogs.html", context)
